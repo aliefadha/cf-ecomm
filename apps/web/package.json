@@ -1,0 +1,44 @@
+{
+  "name": "web",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "preview": "vite preview",
+    "prepare": "svelte-kit sync || echo ''",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "dev:bare": "vite dev"
+  },
+  "dependencies": {
+    "@cf-ecomm/api": "workspace:*",
+    "@cf-ecomm/auth": "workspace:*",
+    "@cf-ecomm/env": "workspace:*",
+    "@libsql/client": "catalog:",
+    "@orpc/client": "catalog:",
+    "@orpc/server": "catalog:",
+    "@orpc/tanstack-query": "^1.13.6",
+    "@tanstack/svelte-form": "^1.28.0",
+    "@tanstack/svelte-query": "^5.85.3",
+    "better-auth": "catalog:",
+    "dotenv": "catalog:",
+    "libsql": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@cf-ecomm/config": "workspace:*",
+    "@sveltejs/adapter-auto": "^6.1.0",
+    "@sveltejs/adapter-cloudflare": "^7.2.4",
+    "@sveltejs/kit": "^2.31.1",
+    "@sveltejs/vite-plugin-svelte": "^6.1.2",
+    "@tailwindcss/vite": "^4.1.12",
+    "@tanstack/svelte-query-devtools": "^5.85.3",
+    "alchemy": "catalog:",
+    "svelte": "^5.38.1",
+    "svelte-check": "^4.3.1",
+    "tailwindcss": "^4.1.12",
+    "typescript": "catalog:",
+    "vite": "^7.1.2"
+  }
+}

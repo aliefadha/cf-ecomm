@@ -1,0 +1,3 @@
+{
+  "extends": "@cf-ecomm/config/tsconfig.base.json"
+}

@@ -1,0 +1,24 @@
+{
+  "name": "@cf-ecomm/auth",
+  "type": "module",
+  "exports": {
+    ".": {
+      "default": "./src/index.ts"
+    },
+    "./*": {
+      "default": "./src/*.ts"
+    }
+  },
+  "scripts": {},
+  "dependencies": {
+    "@cf-ecomm/db": "workspace:*",
+    "@cf-ecomm/env": "workspace:*",
+    "better-auth": "catalog:",
+    "dotenv": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@cf-ecomm/config": "workspace:*",
+    "typescript": "catalog:"
+  }
+}

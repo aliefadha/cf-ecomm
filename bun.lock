@@ -88,6 +88,7 @@
         "@orpc/server": "catalog:",
         "@orpc/zod": "catalog:",
         "dotenv": "catalog:",
+        "drizzle-orm": "catalog:",
         "zod": "catalog:",
       },
       "devDependencies": {
@@ -169,6 +170,7 @@
     "alchemy": "^0.90.0",
     "better-auth": "1.5.5",
     "dotenv": "^17.2.2",
+    "drizzle-orm": "^0.45.1",
     "hono": "^4.8.2",
     "libsql": "0.5.22",
     "typescript": "^5",

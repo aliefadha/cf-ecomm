@@ -1,0 +1,20 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1775464014170,
+      "tag": "0000_good_warlock",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1775575018866,
+      "tag": "0001_volatile_prowler",
+      "breakpoints": true
+    }
+  ]
+}

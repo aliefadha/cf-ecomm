@@ -24,7 +24,8 @@
 			"cache": false
 		},
 		"deploy": {
-			"cache": false
+			"cache": false,
+			"env": ["STAGE"]
 		},
 		"destroy": {
 			"cache": false

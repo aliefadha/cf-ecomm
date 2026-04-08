@@ -14,8 +14,8 @@ node_modules
 Thumbs.db
 
 # Env
-!.env
-!.env.prod
+!.env.dev
+!.env.local
 
 # Vite
 vite.config.js.timestamp-*

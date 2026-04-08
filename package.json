@@ -26,16 +26,19 @@
 	},
 	"type": "module",
 	"scripts": {
-		"dev": "turbo dev",
-		"build": "turbo build",
-		"check-types": "turbo check-types",
-		"dev:web": "turbo -F web dev",
-		"dev:server": "turbo -F server dev",
+		"dev": "STAGE=dev turbo dev",
+		"build": "STAGE=dev turbo build",
+		"check-types": "STAGE=dev turbo check-types",
+		"check": "STAGE=dev biome check --write .",
+		"lint": "STAGE=dev biome check .",
+		"dev:web": "STAGE=dev turbo -F web dev",
+		"dev:server": "STAGE=dev turbo -F server dev",
 		"db:push": "turbo -F @cf-ecomm/db db:push",
 		"db:generate": "turbo -F @cf-ecomm/db db:generate",
-		"deploy": "turbo -F @cf-ecomm/infra deploy",
+		"deploy": "STAGE=prod turbo -F @cf-ecomm/infra deploy",
+		"deploy:dev": "STAGE=dev turbo -F @cf-ecomm/infra deploy",
 		"destroy": "turbo -F @cf-ecomm/infra destroy",
-		"check": "biome check --write ."
+		"test": "echo 'No tests configured'"
 	},
 	"dependencies": {
 		"@cf-ecomm/env": "workspace:*",

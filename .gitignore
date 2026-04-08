@@ -8,9 +8,16 @@ dist
 build
 *.tsbuildinfo
 
-# Environment variables
+# Environment variables - base
 .env
 .env*.local
+
+# App-specific env files (contain secrets - DO NOT COMMIT)
+apps/server/.env
+apps/server/.env.dev
+apps/server/.env.prod
+packages/infra/.env
+packages/infra/.env.local
 
 # IDEs and editors
 .vscode/*

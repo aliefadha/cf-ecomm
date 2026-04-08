@@ -1,5 +1,6 @@
 import alchemy from "alchemy";
 import { D1Database, SvelteKit, Worker } from "alchemy/cloudflare";
+import { CloudflareStateStore } from "alchemy/state";
 import { config } from "dotenv";
 
 const stage = process.env.STAGE || "dev";
@@ -14,6 +15,8 @@ config({ path: `../../apps/server/.env.${stage}` });
 const app = await alchemy("cf-ecomm", {
 	stage,
 	password: process.env.ALCHEMY_PASSWORD,
+	stateStore:
+		stage === "prod" ? (scope) => new CloudflareStateStore(scope) : undefined,
 });
 
 const db = await D1Database("database", {

@@ -232,8 +232,11 @@ export const categoryRelations = relations(category, ({ one, many }) => ({
 	parent: one(category, {
 		fields: [category.parentId],
 		references: [category.id],
+		relationName: "categoryParent",
 	}),
-	children: many(category),
+	children: many(category, {
+		relationName: "categoryParent",
+	}),
 	products: many(productCategory),
 }));
 

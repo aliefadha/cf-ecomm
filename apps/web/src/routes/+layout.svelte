@@ -4,6 +4,7 @@ import { SvelteQueryDevtools } from "@tanstack/svelte-query-devtools";
 import "../app.css";
 import { queryClient } from "$lib/orpc";
 import Header from "../components/Header.svelte";
+import Sonner from "$lib/components/ui/sonner/sonner.svelte";
 
 const { children } = $props();
 </script>
@@ -16,4 +17,5 @@ const { children } = $props();
 		</main>
     </div>
     <SvelteQueryDevtools />
+    <Sonner />
 </QueryClientProvider>

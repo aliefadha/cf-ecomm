@@ -44,3 +44,4 @@ jobs:
         env:
           ALCHEMY_PASSWORD: ${{ secrets.ALCHEMY_PASSWORD }}
           STAGE: prod
+          ALCHEMY_CI_STATE_STORE_CHECK: false

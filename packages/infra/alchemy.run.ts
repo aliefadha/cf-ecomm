@@ -5,7 +5,6 @@ import { D1Database } from "alchemy/cloudflare";
 import { config } from "dotenv";
 
 const stage = process.env.STAGE || "dev";
-const app = await alchemy("cf-ecomm", { stage });
 
 config({ path: "./.env" });
 config({ path: `./.env.${stage}` });
@@ -13,6 +12,11 @@ config({ path: "../../apps/web/.env" });
 config({ path: `../../apps/web/.env.${stage}` });
 config({ path: "../../apps/server/.env" });
 config({ path: `../../apps/server/.env.${stage}` });
+
+const app = await alchemy("cf-ecomm", {
+	stage,
+	password: process.env.ALCHEMY_PASSWORD,
+});
 
 const db = await D1Database("database", {
 	migrationsDir: "../../packages/db/src/migrations",

@@ -13,10 +13,12 @@ config({ path: "../../apps/server/.env" });
 config({ path: `../../apps/server/.env.${stage}` });
 
 const app = await alchemy("cf-ecomm", {
-	stage,
+	stage: "prod",
 	password: process.env.ALCHEMY_PASSWORD,
-	stateStore:
-		stage === "prod" ? (scope) => new CloudflareStateStore(scope) : undefined,
+	stateStore: (scope) => new CloudflareStateStore(scope, {
+		email: process.env.CLOUDFLARE_EMAIL,
+		apiToken: alchemy.secret(process.env.CLOUDFLARE_API_TOKEN),
+	})
 });
 
 const db = await D1Database("database", {

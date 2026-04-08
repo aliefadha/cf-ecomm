@@ -1,10 +1,10 @@
 import { relations, sql } from "drizzle-orm";
 import {
-	sqliteTable,
-	text,
+	index,
 	integer,
 	real,
-	index,
+	sqliteTable,
+	text,
 } from "drizzle-orm/sqlite-core";
 import { user } from "./auth";
 

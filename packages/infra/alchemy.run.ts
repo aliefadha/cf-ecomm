@@ -1,7 +1,5 @@
 import alchemy from "alchemy";
-import { SvelteKit } from "alchemy/cloudflare";
-import { Worker } from "alchemy/cloudflare";
-import { D1Database } from "alchemy/cloudflare";
+import { D1Database, SvelteKit, Worker } from "alchemy/cloudflare";
 import { config } from "dotenv";
 
 const stage = process.env.STAGE || "dev";
@@ -25,6 +23,7 @@ const db = await D1Database("database", {
 export const web = await SvelteKit("web", {
 	cwd: "../../apps/web",
 	bindings: {
+		// biome-ignore lint/style/noNonNullAssertion: env vars are loaded via dotenv before this
 		PUBLIC_SERVER_URL: alchemy.env.PUBLIC_SERVER_URL!,
 	},
 });
@@ -35,8 +34,11 @@ export const server = await Worker("server", {
 	compatibility: "node",
 	bindings: {
 		DB: db,
+		// biome-ignore lint/style/noNonNullAssertion: env vars are loaded via dotenv before this
 		CORS_ORIGIN: alchemy.env.CORS_ORIGIN!,
+		// biome-ignore lint/style/noNonNullAssertion: env vars are loaded via dotenv before this
 		BETTER_AUTH_SECRET: alchemy.secret.env.BETTER_AUTH_SECRET!,
+		// biome-ignore lint/style/noNonNullAssertion: env vars are loaded via dotenv before this
 		BETTER_AUTH_URL: alchemy.env.BETTER_AUTH_URL!,
 	},
 	dev: {

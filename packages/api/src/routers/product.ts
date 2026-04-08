@@ -1,13 +1,13 @@
-import { z } from "zod";
-import { eq, and, like, sql } from "drizzle-orm";
-import { ORPCError } from "@orpc/server";
 import {
-	product,
 	inventory,
+	product,
 	productCategory,
 } from "@cf-ecomm/db/schema/ecommerce";
-import { publicProcedure, protectedProcedure } from "../index";
-import { getDb, generateSlug, generateId } from "../utils";
+import { ORPCError } from "@orpc/server";
+import { and, eq, like, sql } from "drizzle-orm";
+import { z } from "zod";
+import { protectedProcedure, publicProcedure } from "../index";
+import { generateId, generateSlug, getDb } from "../utils";
 
 export const productRouter = {
 	list: publicProcedure
@@ -77,7 +77,8 @@ export const productRouter = {
 			const result = await db.query.product.findFirst({
 				where: input.id
 					? eq(product.id, input.id)
-					: eq(product.slug, input.slug!),
+					: // biome-ignore lint/style/noNonNullAssertion: checked above that if id is falsy, slug is truthy
+						eq(product.slug, input.slug!),
 				with: {
 					categories: {
 						with: {

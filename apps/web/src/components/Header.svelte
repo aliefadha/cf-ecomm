@@ -1,11 +1,10 @@
 <script lang="ts">
+import UserMenu from "./UserMenu.svelte";
 
-	import UserMenu from './UserMenu.svelte';
-    const links = [
-        { to: "/", label: "Home" },
-        { to: "/dashboard", label: "Dashboard" },
-    ];
-
+const links = [
+	{ to: "/", label: "Home" },
+	{ to: "/dashboard", label: "Dashboard" },
+];
 </script>
 
 <div>

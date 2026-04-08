@@ -1,9 +1,9 @@
-import { z } from "zod";
-import { eq } from "drizzle-orm";
-import { ORPCError } from "@orpc/server";
 import { category } from "@cf-ecomm/db/schema/ecommerce";
-import { publicProcedure, protectedProcedure } from "../index";
-import { getDb, generateSlug, generateId } from "../utils";
+import { ORPCError } from "@orpc/server";
+import { eq } from "drizzle-orm";
+import { z } from "zod";
+import { protectedProcedure, publicProcedure } from "../index";
+import { generateId, generateSlug, getDb } from "../utils";
 
 export const categoryRouter = {
 	list: publicProcedure.handler(async () => {
@@ -34,7 +34,8 @@ export const categoryRouter = {
 			const result = await db.query.category.findFirst({
 				where: input.id
 					? eq(category.id, input.id)
-					: eq(category.slug, input.slug!),
+					: // biome-ignore lint/style/noNonNullAssertion: checked above that if id is falsy, slug is truthy
+						eq(category.slug, input.slug!),
 				with: {
 					parent: true,
 					children: true,

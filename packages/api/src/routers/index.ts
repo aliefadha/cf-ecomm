@@ -1,11 +1,11 @@
 import type { RouterClient } from "@orpc/server";
 
 import { protectedProcedure, publicProcedure } from "../index";
-import { categoryRouter } from "./category";
-import { productRouter } from "./product";
-import { cartRouter } from "./cart";
 import { addressRouter } from "./address";
+import { cartRouter } from "./cart";
+import { categoryRouter } from "./category";
 import { orderRouter } from "./order";
+import { productRouter } from "./product";
 
 export const appRouter = {
 	healthCheck: publicProcedure.handler(() => {

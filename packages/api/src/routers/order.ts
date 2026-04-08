@@ -1,16 +1,16 @@
-import { z } from "zod";
-import { eq } from "drizzle-orm";
-import { ORPCError } from "@orpc/server";
 import {
-	order,
-	orderItem,
-	orderAddress,
 	cart,
 	cartItem,
 	inventory,
+	order,
+	orderAddress,
+	orderItem,
 } from "@cf-ecomm/db/schema/ecommerce";
+import { ORPCError } from "@orpc/server";
+import { eq } from "drizzle-orm";
+import { z } from "zod";
 import { protectedProcedure } from "../index";
-import { getDb, generateId } from "../utils";
+import { generateId, getDb } from "../utils";
 
 const orderAddressInput = z.object({
 	type: z.enum(["billing", "shipping"]),

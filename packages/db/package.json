@@ -1,29 +1,29 @@
 {
-  "name": "@cf-ecomm/db",
-  "type": "module",
-  "exports": {
-    ".": {
-      "default": "./src/index.ts"
-    },
-    "./*": {
-      "default": "./src/*.ts"
-    }
-  },
-  "scripts": {
-    "db:push": "drizzle-kit push",
-    "db:generate": "drizzle-kit generate"
-  },
-  "dependencies": {
-    "@cf-ecomm/env": "workspace:*",
-    "@libsql/client": "catalog:",
-    "dotenv": "catalog:",
-    "drizzle-orm": "^0.45.1",
-    "libsql": "catalog:",
-    "zod": "catalog:"
-  },
-  "devDependencies": {
-    "@cf-ecomm/config": "workspace:*",
-    "drizzle-kit": "^0.31.8",
-    "typescript": "catalog:"
-  }
+	"name": "@cf-ecomm/db",
+	"type": "module",
+	"exports": {
+		".": {
+			"default": "./src/index.ts"
+		},
+		"./*": {
+			"default": "./src/*.ts"
+		}
+	},
+	"scripts": {
+		"db:push": "drizzle-kit push",
+		"db:generate": "drizzle-kit generate"
+	},
+	"dependencies": {
+		"@cf-ecomm/env": "workspace:*",
+		"@libsql/client": "catalog:",
+		"dotenv": "catalog:",
+		"drizzle-orm": "^0.45.1",
+		"libsql": "catalog:",
+		"zod": "catalog:"
+	},
+	"devDependencies": {
+		"@cf-ecomm/config": "workspace:*",
+		"drizzle-kit": "^0.31.8",
+		"typescript": "catalog:"
+	}
 }

@@ -1,9 +1,9 @@
-import { z } from "zod";
-import { eq } from "drizzle-orm";
-import { ORPCError } from "@orpc/server";
 import { address } from "@cf-ecomm/db/schema/ecommerce";
+import { ORPCError } from "@orpc/server";
+import { eq } from "drizzle-orm";
+import { z } from "zod";
 import { protectedProcedure } from "../index";
-import { getDb, generateId } from "../utils";
+import { generateId, getDb } from "../utils";
 
 export const addressRouter = {
 	list: protectedProcedure.handler(async ({ context }) => {

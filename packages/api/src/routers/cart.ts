@@ -1,8 +1,8 @@
-import { z } from "zod";
-import { eq, and } from "drizzle-orm";
 import { cart, cartItem } from "@cf-ecomm/db/schema/ecommerce";
+import { and, eq } from "drizzle-orm";
+import { z } from "zod";
 import { publicProcedure } from "../index";
-import { getDb, generateId } from "../utils";
+import { generateId, getDb } from "../utils";
 
 export const cartRouter = {
 	get: publicProcedure

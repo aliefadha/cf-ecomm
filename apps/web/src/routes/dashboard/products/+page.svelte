@@ -107,7 +107,7 @@ const filteredProducts = $derived(
 						{#each filteredProducts as product}
 							<Table.Row>
 								<Table.Cell>
-									<div class="flex items-center gap-3">
+									<a href="/dashboard/products/{product.id}" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
 										<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-muted">
 											{#if product.images && product.images.length > 0}
 												<img
@@ -123,7 +123,7 @@ const filteredProducts = $derived(
 											<p class="text-sm font-medium">{product.name}</p>
 											<p class="text-xs text-muted-foreground">{product.sku ?? "No SKU"}</p>
 										</div>
-									</div>
+									</a>
 								</Table.Cell>
 								<Table.Cell>
 									<Badge

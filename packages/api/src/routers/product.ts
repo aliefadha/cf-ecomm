@@ -227,17 +227,38 @@ export const productRouter = {
 		.input(
 			z.object({
 				productId: z.string(),
-				quantity: z.number(),
+				quantity: z.number().min(0),
+				lowStockThreshold: z.number().min(0).default(10),
 			}),
 		)
 		.handler(async ({ input }) => {
 			const db = getDb();
-			const [updated] = await db
-				.update(inventory)
-				.set({ quantity: input.quantity })
-				.where(eq(inventory.productId, input.productId))
-				.returning();
 
-			return updated;
+			const existing = await db.query.inventory.findFirst({
+				where: eq(inventory.productId, input.productId),
+			});
+
+			if (existing) {
+				const [updated] = await db
+					.update(inventory)
+					.set({
+						quantity: input.quantity,
+						lowStockThreshold: input.lowStockThreshold,
+					})
+					.where(eq(inventory.productId, input.productId))
+					.returning();
+				return updated;
+			}
+
+			const [created] = await db
+				.insert(inventory)
+				.values({
+					id: generateId(),
+					productId: input.productId,
+					quantity: input.quantity,
+					lowStockThreshold: input.lowStockThreshold,
+				})
+				.returning();
+			return created;
 		}),
 };

@@ -78,6 +78,17 @@ const updateProductMutation = createMutation(
 	}),
 );
 
+const updateInventoryMutation = createMutation(
+	orpc.product.updateInventory.mutationOptions({
+		onSuccess: () => {
+			qc.invalidateQueries({ queryKey: orpc.product.list.queryKey({}) });
+		},
+		onError: (error) => {
+			toast.error(error.message);
+		},
+	}),
+);
+
 let formData = $state({
 	name: "",
 	description: "",
@@ -91,6 +102,7 @@ let formData = $state({
 	weightUnit: "kg",
 	status: "draft" as "draft" | "active" | "archived",
 	categoryIds: [] as string[],
+	trackInventory: true,
 	quantity: 0,
 	lowStockThreshold: 10,
 });
@@ -112,6 +124,7 @@ $effect(() => {
 			weightUnit: product.weightUnit ?? "kg",
 			status: product.status,
 			categoryIds: product.categories?.map((c) => c.category.id) ?? [],
+			trackInventory: !!product.inventory,
 			quantity: product.inventory?.quantity ?? 0,
 			lowStockThreshold: product.inventory?.lowStockThreshold ?? 10,
 		};
@@ -129,6 +142,7 @@ $effect(() => {
 			weightUnit: "kg",
 			status: "draft",
 			categoryIds: [],
+			trackInventory: true,
 			quantity: 0,
 			lowStockThreshold: 10,
 		};
@@ -182,6 +196,14 @@ function handleSubmit(e: Event) {
 			categoryIds: formData.categoryIds,
 		};
 		$updateProductMutation.mutate(updatePayload);
+
+		if (formData.trackInventory) {
+			$updateInventoryMutation.mutate({
+				productId: product.id,
+				quantity: Number(formData.quantity),
+				lowStockThreshold: Number(formData.lowStockThreshold),
+			});
+		}
 	} else {
 		const createPayload = {
 			name: formData.name,
@@ -198,10 +220,14 @@ function handleSubmit(e: Event) {
 			weightUnit: formData.weightUnit,
 			status: formData.status as "draft" | "active" | "archived",
 			categoryIds: formData.categoryIds,
-			inventory: {
-				quantity: Number(formData.quantity),
-				lowStockThreshold: Number(formData.lowStockThreshold),
-			},
+			...(formData.trackInventory
+				? {
+						inventory: {
+							quantity: Number(formData.quantity),
+							lowStockThreshold: Number(formData.lowStockThreshold),
+						},
+					}
+				: {}),
 		};
 		$createProductMutation.mutate(createPayload);
 	}
@@ -376,28 +402,39 @@ function handleSubmit(e: Event) {
 				/>
 			</div>
 
-			{#if !isEditing}
-				<div class="grid gap-4 sm:grid-cols-2">
-					<div class="space-y-2">
-						<Label for="quantity">Initial Stock</Label>
-						<Input
-							id="quantity"
-							type="number"
-							min="0"
-							bind:value={formData.quantity}
-						/>
-					</div>
-					<div class="space-y-2">
-						<Label for="lowStockThreshold">Low Stock Alert</Label>
-						<Input
-							id="lowStockThreshold"
-							type="number"
-							min="0"
-							bind:value={formData.lowStockThreshold}
-						/>
-					</div>
+			<div class="space-y-4">
+				<div class="flex items-center gap-2">
+					<input
+						type="checkbox"
+						id="trackInventory"
+						bind:checked={formData.trackInventory}
+						class="size-4 rounded border-input"
+					/>
+					<Label for="trackInventory">Track inventory for this product</Label>
 				</div>
-			{/if}
+				{#if formData.trackInventory}
+					<div class="grid gap-4 sm:grid-cols-2">
+						<div class="space-y-2">
+							<Label for="quantity">{isEditing ? "Stock Quantity" : "Initial Stock"}</Label>
+							<Input
+								id="quantity"
+								type="number"
+								min="0"
+								bind:value={formData.quantity}
+							/>
+						</div>
+						<div class="space-y-2">
+							<Label for="lowStockThreshold">Low Stock Alert</Label>
+							<Input
+								id="lowStockThreshold"
+								type="number"
+								min="0"
+								bind:value={formData.lowStockThreshold}
+							/>
+						</div>
+					</div>
+				{/if}
+			</div>
 		</form>
 
 		<Dialog.Footer>

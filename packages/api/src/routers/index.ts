@@ -7,6 +7,7 @@ import { categoryRouter } from "./category";
 import { inventoryRouter } from "./inventory";
 import { orderRouter } from "./order";
 import { productRouter } from "./product";
+import { uploadRouter } from "./upload";
 
 export const appRouter = {
 	healthCheck: publicProcedure.handler(() => {
@@ -24,6 +25,7 @@ export const appRouter = {
 	address: addressRouter,
 	order: orderRouter,
 	inventory: inventoryRouter,
+	upload: uploadRouter,
 };
 export type AppRouter = typeof appRouter;
 export type AppRouterClient = RouterClient<typeof appRouter>;

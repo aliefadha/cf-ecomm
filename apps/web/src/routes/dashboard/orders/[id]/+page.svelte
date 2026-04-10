@@ -1,23 +1,26 @@
 <script lang="ts">
-import { page } from "$app/stores";
 import { ArrowLeft, Package } from "@lucide/svelte";
+import {
+	createMutation,
+	createQuery,
+	useQueryClient,
+} from "@tanstack/svelte-query";
+import { toast } from "svelte-sonner";
+import { page } from "$app/stores";
 import { Badge } from "$lib/components/ui/badge";
 import { Button } from "$lib/components/ui/button";
 import * as Card from "$lib/components/ui/card";
 import { Separator } from "$lib/components/ui/separator";
 import { Skeleton } from "$lib/components/ui/skeleton";
-import {
-	createQuery,
-	createMutation,
-	useQueryClient,
-} from "@tanstack/svelte-query";
-import { toast } from "svelte-sonner";
 import { orpc } from "$lib/orpc";
 
 const qc = useQueryClient();
 
 const orderQuery = createQuery(
-	orpc.order.get.queryOptions({ input: { id: $page.params.id as string }, enabled: !!$page.params.id }),
+	orpc.order.get.queryOptions({
+		input: { id: $page.params.id as string },
+		enabled: !!$page.params.id,
+	}),
 );
 
 const order = $derived($orderQuery.data);
@@ -27,7 +30,9 @@ const statusMutation = createMutation(
 		onSuccess: () => {
 			toast.success("Order status updated");
 			qc.invalidateQueries({
-				queryKey: orpc.order.get.queryKey({ input: { id: $page.params.id as string } }),
+				queryKey: orpc.order.get.queryKey({
+					input: { id: $page.params.id as string },
+				}),
 			});
 		},
 		onError: (error) => {

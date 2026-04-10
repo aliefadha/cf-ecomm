@@ -2,9 +2,9 @@
 import { QueryClientProvider } from "@tanstack/svelte-query";
 import { SvelteQueryDevtools } from "@tanstack/svelte-query-devtools";
 import "../app.css";
+import Sonner from "$lib/components/ui/sonner/sonner.svelte";
 import { queryClient } from "$lib/orpc";
 import Header from "../components/Header.svelte";
-import Sonner from "$lib/components/ui/sonner/sonner.svelte";
 
 const { children } = $props();
 </script>

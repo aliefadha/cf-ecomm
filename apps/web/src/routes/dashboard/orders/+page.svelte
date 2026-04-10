@@ -1,12 +1,12 @@
 <script lang="ts">
 import { ShoppingCart } from "@lucide/svelte";
+import { createQuery } from "@tanstack/svelte-query";
 import { Badge } from "$lib/components/ui/badge";
 import { Button } from "$lib/components/ui/button";
 import * as Card from "$lib/components/ui/card";
 import { Input } from "$lib/components/ui/input";
 import { Skeleton } from "$lib/components/ui/skeleton";
 import * as Table from "$lib/components/ui/table";
-import { createQuery } from "@tanstack/svelte-query";
 import { orpc } from "$lib/orpc";
 
 let searchQuery = $state("");

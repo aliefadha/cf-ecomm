@@ -1,22 +1,25 @@
 <script lang="ts">
-  import { page } from "$app/stores";
-  import { ArrowLeft, Package } from "@lucide/svelte";
-  import ProductForm from "$lib/components/product-form.svelte";
-  import * as Card from "$lib/components/ui/card";
-  import { Badge } from "$lib/components/ui/badge";
-  import { Button } from "$lib/components/ui/button";
-  import { Separator } from "$lib/components/ui/separator";
-  import { Skeleton } from "$lib/components/ui/skeleton";
-  import { createQuery, useQueryClient } from "@tanstack/svelte-query";
-  import { orpc } from "$lib/orpc";
+import { ArrowLeft, Package } from "@lucide/svelte";
+import { createQuery, useQueryClient } from "@tanstack/svelte-query";
+import { page } from "$app/stores";
+import ProductForm from "$lib/components/product-form.svelte";
+import { Badge } from "$lib/components/ui/badge";
+import { Button } from "$lib/components/ui/button";
+import * as Card from "$lib/components/ui/card";
+import { Separator } from "$lib/components/ui/separator";
+import { Skeleton } from "$lib/components/ui/skeleton";
+import { orpc } from "$lib/orpc";
 
-  const qc = useQueryClient();
+const qc = useQueryClient();
 
-  const productQuery = createQuery(
-  	orpc.product.get.queryOptions({ input: { id: $page.params.id }, enabled: !!$page.params.id }),
-  );
+const productQuery = createQuery(
+	orpc.product.get.queryOptions({
+		input: { id: $page.params.id },
+		enabled: !!$page.params.id,
+	}),
+);
 
-  const product = $derived($productQuery.data);
+const product = $derived($productQuery.data);
 </script>
 
 <div class="space-y-6">

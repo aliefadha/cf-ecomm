@@ -1,16 +1,16 @@
 <script lang="ts">
-import { createQuery } from "@tanstack/svelte-query";
 import {
+	AlertTriangle,
+	DollarSign,
 	Package,
 	ShoppingCart,
-	DollarSign,
-	AlertTriangle,
 } from "@lucide/svelte";
-import { orpc } from "$lib/orpc";
-import * as Card from "$lib/components/ui/card";
-import { Skeleton } from "$lib/components/ui/skeleton";
+import { createQuery } from "@tanstack/svelte-query";
 import { Badge } from "$lib/components/ui/badge";
 import { Button } from "$lib/components/ui/button";
+import * as Card from "$lib/components/ui/card";
+import { Skeleton } from "$lib/components/ui/skeleton";
+import { orpc } from "$lib/orpc";
 
 const productsQuery = createQuery(
 	orpc.product.list.queryOptions({ input: {} }),

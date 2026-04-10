@@ -1,15 +1,19 @@
 <script lang="ts">
-import { createMutation, useQueryClient } from "@tanstack/svelte-query";
+import { Pencil, Plus } from "@lucide/svelte";
+import {
+	createMutation,
+	createQuery,
+	useQueryClient,
+} from "@tanstack/svelte-query";
 import { toast } from "svelte-sonner";
-import { Plus, Pencil, Upload, X } from "@lucide/svelte";
-import { orpc } from "$lib/orpc";
-import * as Dialog from "$lib/components/ui/dialog";
+import { Badge } from "$lib/components/ui/badge";
 import { Button } from "$lib/components/ui/button";
+import * as Dialog from "$lib/components/ui/dialog";
 import { Input } from "$lib/components/ui/input";
 import { Label } from "$lib/components/ui/label";
 import { Textarea } from "$lib/components/ui/textarea";
-import { Badge } from "$lib/components/ui/badge";
-import { createQuery } from "@tanstack/svelte-query";
+import { orpc } from "$lib/orpc";
+import ImageUploader from "./image-uploader.svelte";
 
 type Product = {
 	id: string;
@@ -47,7 +51,7 @@ let {
 }: Props = $props();
 
 let isEditing = $derived(!!product);
-let imageInput: HTMLInputElement;
+let uploadProductId = $state("");
 const qc = useQueryClient();
 
 const createProductMutation = createMutation(
@@ -128,6 +132,7 @@ $effect(() => {
 			quantity: product.inventory?.quantity ?? 0,
 			lowStockThreshold: product.inventory?.lowStockThreshold ?? 10,
 		};
+		uploadProductId = product.id;
 	} else if (open && !product) {
 		formData = {
 			name: "",
@@ -146,22 +151,13 @@ $effect(() => {
 			quantity: 0,
 			lowStockThreshold: 10,
 		};
+		uploadProductId = crypto.randomUUID();
 	}
 });
 
 function handleOpenChange(newOpen: boolean) {
 	open = newOpen;
 	onOpenChange?.(newOpen);
-}
-
-function addImage(url: string) {
-	if (url) {
-		formData.images = [...formData.images, url];
-	}
-}
-
-function removeImage(index: number) {
-	formData.images = formData.images.filter((_, i) => i !== index);
 }
 
 function toggleCategory(categoryId: string) {
@@ -366,39 +362,10 @@ function handleSubmit(e: Event) {
 
 			<div class="space-y-2">
 				<Label>Images</Label>
-				<div class="flex flex-wrap gap-2">
-					{#each formData.images as image, i}
-						<div class="relative group">
-							<img src={image} alt="" class="size-20 rounded-lg object-cover border" />
-							<button
-								type="button"
-								class="absolute -top-2 -right-2 size-5 rounded-full bg-destructive text-destructive-foreground flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-								onclick={() => removeImage(i)}
-							>
-								<X class="size-3" />
-							</button>
-						</div>
-					{/each}
-					<button
-						type="button"
-						class="size-20 rounded-lg border border-dashed flex items-center justify-center hover:bg-muted transition-colors"
-						onclick={() => imageInput?.click()}
-					>
-						<Upload class="size-5 text-muted-foreground" />
-					</button>
-				</div>
-				<input
-					bind:this={imageInput}
-					type="url"
-					placeholder="Enter image URL"
-					class="hidden"
-					onchange={(e) => {
-						const val = (e.target as HTMLInputElement).value;
-						if (val) {
-							addImage(val);
-							(e.target as HTMLInputElement).value = "";
-						}
-					}}
+				<ImageUploader
+					productId={uploadProductId}
+					images={formData.images}
+					onImagesChange={(imgs) => (formData.images = imgs)}
 				/>
 			</div>
 

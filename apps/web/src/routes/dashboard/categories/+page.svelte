@@ -1,84 +1,84 @@
 <script lang="ts">
-  import { FolderTree, Pencil, Trash2 } from "@lucide/svelte";
-  import CategoryForm from "$lib/components/category-form.svelte";
-  import * as Card from "$lib/components/ui/card";
-  import { Badge } from "$lib/components/ui/badge";
-  import { Button } from "$lib/components/ui/button";
-  import { Input } from "$lib/components/ui/input";
-  import * as Dialog from "$lib/components/ui/dialog";
-  import { createQuery, createMutation } from "@tanstack/svelte-query";
-  import { toast } from "svelte-sonner";
-  import { orpc } from "$lib/orpc";
+import { FolderTree, Pencil, Trash2 } from "@lucide/svelte";
+import { createMutation, createQuery } from "@tanstack/svelte-query";
+import { toast } from "svelte-sonner";
+import CategoryForm from "$lib/components/category-form.svelte";
+import { Badge } from "$lib/components/ui/badge";
+import { Button } from "$lib/components/ui/button";
+import * as Card from "$lib/components/ui/card";
+import * as Dialog from "$lib/components/ui/dialog";
+import { Input } from "$lib/components/ui/input";
+import { orpc } from "$lib/orpc";
 
-  type CategoryNode = {
-    id: string;
-    name: string;
-    description: string | null;
-    slug: string;
-    parentId: string | null;
-    parent?: CategoryNode | null;
-    children?: CategoryNode[];
-    [k: string]: unknown;
-  };
+type CategoryNode = {
+	id: string;
+	name: string;
+	description: string | null;
+	slug: string;
+	parentId: string | null;
+	parent?: CategoryNode | null;
+	children?: CategoryNode[];
+	[k: string]: unknown;
+};
 
-  const categoriesQuery = createQuery(orpc.category.list.queryOptions());
+const categoriesQuery = createQuery(orpc.category.list.queryOptions());
 
-  let searchQuery = $state("");
-  let deleteDialogOpen = $state(false);
-  let deleteCategoryId = $state<string | null>(null);
-  let deleteCategoryName = $state<string>("");
-  let isDeleting = $state(false);
+let searchQuery = $state("");
+let deleteDialogOpen = $state(false);
+let deleteCategoryId = $state<string | null>(null);
+let deleteCategoryName = $state<string>("");
+let isDeleting = $state(false);
 
-  const deleteMutation = createMutation(
-    orpc.category.delete.mutationOptions({
-      onSuccess: () => {
-        toast.success("Category deleted");
-        deleteDialogOpen = false;
-        deleteCategoryId = null;
-        deleteCategoryName = "";
-      },
-      onError: (error) => {
-        toast.error(error.message);
-        isDeleting = false;
-      },
-    }),
-  );
+const deleteMutation = createMutation(
+	orpc.category.delete.mutationOptions({
+		onSuccess: () => {
+			toast.success("Category deleted");
+			deleteDialogOpen = false;
+			deleteCategoryId = null;
+			deleteCategoryName = "";
+		},
+		onError: (error) => {
+			toast.error(error.message);
+			isDeleting = false;
+		},
+	}),
+);
 
-  function flattenCategories(
-    categories: CategoryNode[],
-    depth = 0,
-  ): Array<{ category: CategoryNode; depth: number }> {
-    const result: Array<{ category: CategoryNode; depth: number }> = [];
-    for (const cat of categories) {
-      result.push({ category: cat, depth });
-      if (cat.children && cat.children.length > 0) {
-        result.push(...flattenCategories(cat.children, depth + 1));
-      }
-    }
-    return result;
-  }
+function flattenCategories(
+	categories: CategoryNode[],
+	depth = 0,
+): Array<{ category: CategoryNode; depth: number }> {
+	const result: Array<{ category: CategoryNode; depth: number }> = [];
+	for (const cat of categories) {
+		result.push({ category: cat, depth });
+		if (cat.children && cat.children.length > 0) {
+			result.push(...flattenCategories(cat.children, depth + 1));
+		}
+	}
+	return result;
+}
 
-  const filteredFlatCategories = $derived(
-    $categoriesQuery.data
-      ? flattenCategories($categoriesQuery.data as CategoryNode[]).filter(
-          ({ category }) =>
-            category.name.toLowerCase().includes(searchQuery.toLowerCase()),
-        )
-      : [],
-  );
+const filteredFlatCategories = $derived(
+	$categoriesQuery.data
+		? flattenCategories($categoriesQuery.data as CategoryNode[]).filter(
+				({ category }) =>
+					category.name.toLowerCase().includes(searchQuery.toLowerCase()),
+			)
+		: [],
+);
 
-  function confirmDelete(category: CategoryNode) {
-    deleteCategoryId = category.id;
-    deleteCategoryName = category.name;
-    deleteDialogOpen = true;
-  }
+function confirmDelete(category: CategoryNode) {
+	deleteCategoryId = category.id;
+	deleteCategoryName = category.name;
+	deleteDialogOpen = true;
+}
 
-  function handleDelete() {
-    if (deleteCategoryId) {
-      isDeleting = true;
-      $deleteMutation.mutate({ id: deleteCategoryId });
-    }
-  }
+function handleDelete() {
+	if (deleteCategoryId) {
+		isDeleting = true;
+		$deleteMutation.mutate({ id: deleteCategoryId });
+	}
+}
 </script>
 
 <div class="space-y-4">

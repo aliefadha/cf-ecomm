@@ -1,6 +1,6 @@
 <script lang="ts">
-import * as Card from "$lib/components/ui/card";
 import { Users } from "@lucide/svelte";
+import * as Card from "$lib/components/ui/card";
 </script>
 
 <div class="space-y-4">

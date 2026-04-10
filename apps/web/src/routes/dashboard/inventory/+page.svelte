@@ -1,19 +1,19 @@
 <script lang="ts">
-import { Boxes, AlertTriangle, Package } from "@lucide/svelte";
+import { AlertTriangle, Boxes, Package } from "@lucide/svelte";
+import {
+	createMutation,
+	createQuery,
+	useQueryClient,
+} from "@tanstack/svelte-query";
+import { toast } from "svelte-sonner";
 import { Badge } from "$lib/components/ui/badge";
 import { Button } from "$lib/components/ui/button";
 import * as Card from "$lib/components/ui/card";
+import * as Dialog from "$lib/components/ui/dialog";
 import { Input } from "$lib/components/ui/input";
 import { Label } from "$lib/components/ui/label";
 import { Skeleton } from "$lib/components/ui/skeleton";
 import * as Table from "$lib/components/ui/table";
-import * as Dialog from "$lib/components/ui/dialog";
-import {
-	createQuery,
-	createMutation,
-	useQueryClient,
-} from "@tanstack/svelte-query";
-import { toast } from "svelte-sonner";
 import { orpc } from "$lib/orpc";
 
 let searchQuery = $state("");
@@ -24,7 +24,9 @@ let newQuantity = $state(0);
 
 const qc = useQueryClient();
 
-const inventoryQuery = createQuery(orpc.inventory.list.queryOptions({ input: {} }));
+const inventoryQuery = createQuery(
+	orpc.inventory.list.queryOptions({ input: {} }),
+);
 
 const filteredInventory = $derived(
 	$inventoryQuery.data?.inventory.filter((inv) => {

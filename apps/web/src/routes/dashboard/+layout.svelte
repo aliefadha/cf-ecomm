@@ -2,18 +2,19 @@
 import { page } from "$app/stores";
 
 const { children } = $props();
-import { goto } from "$app/navigation";
-import { authClient } from "$lib/auth-client";
+
 import {
+	Boxes,
+	ChevronLeft,
+	FolderTree,
 	LayoutDashboard,
+	LogOut,
 	Package,
 	ShoppingCart,
 	Users,
-	Boxes,
-	FolderTree,
-	ChevronLeft,
-	LogOut,
 } from "@lucide/svelte";
+import { goto } from "$app/navigation";
+import { authClient } from "$lib/auth-client";
 import { Button } from "$lib/components/ui/button";
 import * as Card from "$lib/components/ui/card";
 

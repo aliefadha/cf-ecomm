@@ -1,14 +1,17 @@
 <script lang="ts">
-import { createMutation, useQueryClient } from "@tanstack/svelte-query";
+import { Pencil, Plus, Trash } from "@lucide/svelte";
+import {
+	createMutation,
+	createQuery,
+	useQueryClient,
+} from "@tanstack/svelte-query";
 import { toast } from "svelte-sonner";
-import { Plus, Pencil, Trash } from "@lucide/svelte";
-import { orpc } from "$lib/orpc";
-import * as Dialog from "$lib/components/ui/dialog";
 import { Button } from "$lib/components/ui/button";
+import * as Dialog from "$lib/components/ui/dialog";
 import { Input } from "$lib/components/ui/input";
 import { Label } from "$lib/components/ui/label";
 import { Textarea } from "$lib/components/ui/textarea";
-import { createQuery } from "@tanstack/svelte-query";
+import { orpc } from "$lib/orpc";
 
 type Category = {
 	id: string;
